@@ -5423,6 +5423,11 @@ react-native-codegen@^0.0.6:
     jscodeshift "^0.11.0"
     nullthrows "^1.1.1"
 
+react-native-radio-player@^0.2.3:
+  version "0.2.3"
+  resolved "https://registry.yarnpkg.com/react-native-radio-player/-/react-native-radio-player-0.2.3.tgz#b647ca593f505d151916b8f93040bba6072339ee"
+  integrity sha512-78lRATsw6ZyLShDdisxZIQScSubzwOpduJ/pobim6qbMOFgcnxTSKQiczf/1AbmX5MlCGbXILB0jKcfMmt2TCQ==
+
 react-native@0.64.2:
   version "0.64.2"
   resolved "https://registry.yarnpkg.com/react-native/-/react-native-0.64.2.tgz#233b6ed84ac4749c8bc2a2d6cf63577a1c437d18"
