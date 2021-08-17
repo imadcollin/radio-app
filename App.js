@@ -1,39 +1,50 @@
 import React, {useState} from 'react';
-import {Button, SafeAreaView, StyleSheet, Text, View} from 'react-native';
+import {SafeAreaView, Text, View} from 'react-native';
 import Channels from './helper/channels';
 import RadioPlayer from 'react-native-radio-player';
+import {Button, ThemeProvider} from 'react-native-elements';
+
 const App = () => {
   const [isPLaying, setIsPlaying] = useState(false);
-  const playing = () => {
+  const playing = url => {
     if (!isPLaying) {
       RadioPlayer.stop();
     }
-    RadioPlayer.radioURL(Channels[0].url);
+    RadioPlayer.radioURL(url);
     RadioPlayer.play();
     setIsPlaying(!isPLaying);
   };
   const stop = () => {
+    console.log('stop');
     RadioPlayer.stop();
   };
-
+  const theme = {
+    Button: {
+      titleStyle: {
+        color: 'red',
+      },
+    },
+  };
   return (
     <SafeAreaView>
       <View>
         <Text> React Native </Text>
-        {Channels.map((item) => (
-          <Button title={item.name} key={item.id} onPress={playing}></Button>
+        {Channels.map(item => (
+          <Button
+            title={item.name}
+            key={item.id}
+            onPress={() => playing(item.url)}></Button>
         ))}
-        <Button title="Stop" color="#ff0000" onPress={stop}></Button>
+        <ThemeProvider theme={theme}>
+          <Button
+            type="outline"
+            title="Stop"
+            color="red"
+            onPress={stop}></Button>
+        </ThemeProvider>
       </View>
     </SafeAreaView>
   );
 };
-
-const styles = StyleSheet.create({
-  container: {
-    display: 'flex',
-    flexDirection: 'row',
-  },
-});
 
 export default App;
