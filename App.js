@@ -6,8 +6,12 @@ import {Button, ThemeProvider} from 'react-native-elements';
 import {Card} from 'react-native-elements';
 import {Rating} from 'react-native-elements';
 import ChannelItem from './componants/channelItem';
+import AsyncStorage from '@react-native-async-storage/async-storage';
+
 const App = () => {
   const [isPLaying, setIsPlaying] = useState(false);
+  const [favChs, setFacChs] = useState([]);
+
   const playing = url => {
     if (!isPLaying) {
       RadioPlayer.stop();
@@ -28,6 +32,30 @@ const App = () => {
     },
   };
 
+  const st = async value => {
+    console.log('value:', value);
+    try {
+      await AsyncStorage.setItem('@storage_key', JSON.stringify(value));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  const stt = value => {
+    if (favChs.includes(value)) return;
+    setFacChs(favChs => [...favChs, value]);
+    st(favChs);
+  };
+  const rt = async () => {
+    try {
+      const test = await AsyncStorage.getItem('@storage_key')
+        .then(req => JSON.parse(req))
+        .then(json => console.log(json))
+        .catch(error => console.log('error!'));
+    } catch (e) {
+      console.log(e);
+    }
+  };
+
   const ratingCompleted = rating => {
     console.log('Rating is: ' + rating);
   };
@@ -40,7 +68,11 @@ const App = () => {
           <Card.Divider />
           {Channels.map((channel, i) => {
             return (
-              <ChannelItem key={i} channel={channel} playing={playing}></ChannelItem>
+              <ChannelItem
+                key={i}
+                channel={channel}
+                playing={playing}
+                stt={stt}></ChannelItem>
             );
           })}
           <ThemeProvider theme={theme}>
@@ -51,7 +83,7 @@ const App = () => {
               onPress={stop}></Button>
           </ThemeProvider>
         </Card>
-      
+
         <Rating
           startingValue={0}
           ratingCount={1}
@@ -59,6 +91,7 @@ const App = () => {
           style={{paddingVertical: 10}}
         />
       </View>
+      <Button onPress={rt}> retrieve</Button>
     </SafeAreaView>
   );
 };
