@@ -3,12 +3,12 @@ import {View, Text} from 'react-native';
 import {Button} from 'react-native-elements';
 import {Card, ListItem, Icon, Image} from 'react-native-elements';
 
-const ChannelItem = ({channel, playing,stt}) => {
+const ChannelItem = ({channel, playing, stt}) => {
   const [starName, setStarName] = useState('star-outline');
 
   const fav = e => {
     console.log(channel.url);
-    stt(channel.url);
+    stt(channel);
     setStarName(starName === 'star' ? 'star-outline' : 'star');
   };
   return (

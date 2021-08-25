@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import {SafeAreaView, View} from 'react-native';
+import {SafeAreaView, View, Text} from 'react-native';
 import Channels from './helper/channels';
 import RadioPlayer from 'react-native-radio-player';
 import {Button, ThemeProvider} from 'react-native-elements';
-import {Card} from 'react-native-elements';
+import {Card, Icon} from 'react-native-elements';
 import {Rating} from 'react-native-elements';
 import ChannelItem from './componants/channelItem';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -11,6 +11,7 @@ import AsyncStorage from '@react-native-async-storage/async-storage';
 const App = () => {
   const [isPLaying, setIsPlaying] = useState(false);
   const [favChs, setFacChs] = useState([]);
+  const [chs, setChs] = useState(Channels);
 
   const playing = url => {
     if (!isPLaying) {
@@ -21,7 +22,6 @@ const App = () => {
     setIsPlaying(!isPLaying);
   };
   const stop = () => {
-    console.log('stop');
     RadioPlayer.stop();
   };
   const theme = {
@@ -42,7 +42,7 @@ const App = () => {
   };
   const stt = value => {
     if (favChs.includes(value)) return;
-    setFacChs(favChs => [...favChs, value]);
+    setFacChs(favChs => [value, ...favChs]);
     st(favChs);
   };
   const rt = async () => {
@@ -55,7 +55,12 @@ const App = () => {
       console.log(e);
     }
   };
-
+  const myFav = () => {
+    setChs(favChs);
+  };
+  const all = () => {
+    setChs(Channels);
+  };
   const ratingCompleted = rating => {
     console.log('Rating is: ' + rating);
   };
@@ -63,10 +68,21 @@ const App = () => {
   return (
     <SafeAreaView>
       <View>
-        <Card style={{backgroundColor: 'green'}}>
-          <Card.Title>Channels</Card.Title>
+        <Card>
+          <View
+            style={{
+              display: 'flex',
+              flexDirection: 'row',
+              alignSelf: 'auto',
+              justifyContent: 'space-between',
+            }}>
+            <Text onPress={all}>All</Text>
+            <Card.Title>Channels</Card.Title>
+            <Icon name="star" type="ionicon" color="#F39C12" onPress={myFav} />
+          </View>
+
           <Card.Divider />
-          {Channels.map((channel, i) => {
+          {chs.map((channel, i) => {
             return (
               <ChannelItem
                 key={i}
@@ -91,7 +107,6 @@ const App = () => {
           style={{paddingVertical: 10}}
         />
       </View>
-      <Button onPress={rt}> retrieve</Button>
     </SafeAreaView>
   );
 };
