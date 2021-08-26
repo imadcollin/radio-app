@@ -32,31 +32,38 @@ const App = () => {
     },
   };
 
-  const st = async value => {
-    console.log('value:', value);
+  const saveItems = async value => {
     try {
       await AsyncStorage.setItem('@storage_key', JSON.stringify(value));
     } catch (e) {
       console.log(e);
     }
   };
-  const stt = value => {
-    if (favChs.includes(value)) return;
-    setFacChs(favChs => [value, ...favChs]);
-    st(favChs);
+  const handleFav = (channel, starName) => {
+    if (starName === 'star-outline') {
+      if (!cleanList(channel)) favChs.push(channel);
+      saveItems(favChs);
+    } else {
+      const arr = favChs.filter(x => x.id != channel.id);
+      saveItems(arr);
+    }
   };
-  const rt = async () => {
+
+  const cleanList = channel => {
+    return favChs.filter(ch => ch.id === channel.id).length > 0;
+  };
+  const retrieveItems = async () => {
     try {
       const test = await AsyncStorage.getItem('@storage_key')
         .then(req => JSON.parse(req))
-        .then(json => console.log(json))
+        .then(json => setChs(json))
         .catch(error => console.log('error!'));
     } catch (e) {
       console.log(e);
     }
   };
   const myFav = () => {
-    setChs(favChs);
+    retrieveItems();
   };
   const all = () => {
     setChs(Channels);
@@ -88,7 +95,7 @@ const App = () => {
                 key={i}
                 channel={channel}
                 playing={playing}
-                stt={stt}></ChannelItem>
+                handleFav={handleFav}></ChannelItem>
             );
           })}
           <ThemeProvider theme={theme}>
