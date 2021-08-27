@@ -4,7 +4,6 @@ import Channels from './helper/channels';
 import RadioPlayer from 'react-native-radio-player';
 import {Button, ThemeProvider} from 'react-native-elements';
 import {Card, Icon} from 'react-native-elements';
-import {Rating} from 'react-native-elements';
 import ChannelItem from './componants/channelItem';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 
@@ -54,7 +53,7 @@ const App = () => {
   };
   const retrieveItems = async () => {
     try {
-      const test = await AsyncStorage.getItem('@storage_key')
+      await AsyncStorage.getItem('@storage_key')
         .then(req => JSON.parse(req))
         .then(json => setChs(json))
         .catch(error => console.log('error!'));
@@ -67,9 +66,6 @@ const App = () => {
   };
   const all = () => {
     setChs(Channels);
-  };
-  const ratingCompleted = rating => {
-    console.log('Rating is: ' + rating);
   };
 
   return (
@@ -106,13 +102,6 @@ const App = () => {
               onPress={stop}></Button>
           </ThemeProvider>
         </Card>
-
-        <Rating
-          startingValue={0}
-          ratingCount={1}
-          onFinishRating={ratingCompleted}
-          style={{paddingVertical: 10}}
-        />
       </View>
     </SafeAreaView>
   );
