@@ -17,7 +17,9 @@ const ChannelItem = ({channel, playing, handleFav}) => {
         bottomDivider
         style={{
           display: 'flex',
-          alignItems: 'flex-start',
+          flexDirection:'column',
+          alignItems: 'stretch',
+          justifyContent:'flex-end',
           padding: 10,
         }}>
         <Image
@@ -35,7 +37,6 @@ const ChannelItem = ({channel, playing, handleFav}) => {
         <Icon
           name={starName}
           type="ionicon"
-          //    color={starColor}
           onPress={fav}
         />
       </ListItem>
