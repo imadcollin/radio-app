@@ -18,6 +18,8 @@ target 'Radio' do
 
   pod 'RNCAsyncStorage', :path => '../node_modules/@react-native-async-storage/async-storage'
 
+  pod 'RNVolumeController', :path => '../node_modules/react-native-volume-control'
+
   target 'RadioTests' do
     inherit! :complete
     # Pods for testing
