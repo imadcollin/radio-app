@@ -6,7 +6,7 @@ import {Button, ThemeProvider} from 'react-native-elements';
 import {Card, Icon} from 'react-native-elements';
 import ChannelItem from './componants/channelItem';
 import AsyncStorage from '@react-native-async-storage/async-storage';
-
+import VolumeSlider from './componants/volumerSlider';
 const App = () => {
   const [isPLaying, setIsPlaying] = useState(false);
   const [favChs, setFacChs] = useState([]);
@@ -102,6 +102,7 @@ const App = () => {
               onPress={stop}></Button>
           </ThemeProvider>
         </Card>
+        <VolumeSlider></VolumeSlider>
       </View>
     </SafeAreaView>
   );
