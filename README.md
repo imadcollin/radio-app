@@ -10,9 +10,14 @@
 ### Development
 - Cards for each channel
 - Controls (pause, play, volume)
+- Search functionality 
 - Languages 
 - Channel categories(Eng, Ar, Fr,etc.)
 - Styling
+
+### Contact details 
+1. Email
+2. Message Form
 
 ##### Live 
 1. Android 
