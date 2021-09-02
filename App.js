@@ -2,11 +2,11 @@ import React, {useState} from 'react';
 import {SafeAreaView, View, Text} from 'react-native';
 import Channels from './helper/channels';
 import RadioPlayer from 'react-native-radio-player';
-import {Button, ThemeProvider} from 'react-native-elements';
-import {Card, Icon} from 'react-native-elements';
+import {Card, Icon, Button} from 'react-native-elements';
 import ChannelItem from './componants/channelItem';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import VolumeSlider from './componants/volumerSlider';
+import Search from './componants/search';
 const App = () => {
   const [isPLaying, setIsPlaying] = useState(false);
   const [favChs, setFacChs] = useState([]);
@@ -22,13 +22,6 @@ const App = () => {
   };
   const stop = () => {
     RadioPlayer.stop();
-  };
-  const theme = {
-    Button: {
-      titleStyle: {
-        color: 'red',
-      },
-    },
   };
 
   const saveItems = async value => {
@@ -94,15 +87,14 @@ const App = () => {
                 handleFav={handleFav}></ChannelItem>
             );
           })}
-          <ThemeProvider theme={theme}>
-            <Button
-              type="outline"
-              title="Stop"
-              color="red"
-              onPress={stop}></Button>
-          </ThemeProvider>
+          <Button
+            type="outline"
+            title="Stop"
+            color="red"
+            onPress={stop}></Button>
         </Card>
         <VolumeSlider></VolumeSlider>
+        <Search></Search>
       </View>
     </SafeAreaView>
   );
