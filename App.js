@@ -6,11 +6,28 @@ import {Card, Icon, Button} from 'react-native-elements';
 import ChannelItem from './componants/channelItem';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import VolumeSlider from './componants/volumerSlider';
-import Search from './componants/search';
+import {SearchBar} from 'react-native-elements';
+
 const App = () => {
   const [isPLaying, setIsPlaying] = useState(false);
   const [favChs, setFacChs] = useState([]);
   const [chs, setChs] = useState(Channels);
+  const [searchInput, setSearchInput] = useState('');
+
+  const updateSearch = value => {
+    let text = value.toLowerCase();
+    if (!text || text === '') {
+      setChs(Channels);
+    }
+    console.log(text);
+    let arr = chs.filter(x => x.name.toLowerCase().match(text)).map(x => x);
+    if (arr.length > 0) {
+      setChs(arr);
+    } else {
+      setChs(Channels);
+    }
+    setSearchInput(value);
+  };
 
   const playing = url => {
     if (!isPLaying) {
@@ -64,6 +81,12 @@ const App = () => {
   return (
     <SafeAreaView>
       <View>
+        <Text>Search</Text>
+        <SearchBar
+          placeholder="Type Here..."
+          onChangeText={updateSearch}
+          value={searchInput}
+        />
         <Card>
           <View
             style={{
@@ -94,7 +117,6 @@ const App = () => {
             onPress={stop}></Button>
         </Card>
         <VolumeSlider></VolumeSlider>
-        <Search></Search>
       </View>
     </SafeAreaView>
   );
