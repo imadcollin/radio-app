@@ -2,15 +2,34 @@ import React, {useState} from 'react';
 import {SafeAreaView, View, Text} from 'react-native';
 import Channels from './helper/channels';
 import RadioPlayer from 'react-native-radio-player';
-import {Button, ThemeProvider} from 'react-native-elements';
-import {Card, Icon} from 'react-native-elements';
+import {Card, Icon, Button} from 'react-native-elements';
 import ChannelItem from './componants/channelItem';
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import VolumeSlider from './componants/volumerSlider';
+import {SearchBar} from 'react-native-elements';
+
 const App = () => {
   const [isPLaying, setIsPlaying] = useState(false);
   const [favChs, setFacChs] = useState([]);
   const [chs, setChs] = useState(Channels);
+  const [clonedChannels] = useState(Channels);
+  const [searchInput, setSearchInput] = useState('');
+
+  const updateSearch = value => {
+    let text = value.toLowerCase();
+    setChs([...clonedChannels]);
+    if (!text || text === '') {
+      setChs(Channels);
+    }
+    console.log(text);
+    let arr = clonedChannels.filter(x => x.name.toLowerCase().match(text)).map(x => x);
+    if (arr.length > 0) {
+      setChs(arr);
+    } else {
+      setChs([]);
+    }
+    setSearchInput(value);
+  };
 
   const playing = url => {
     if (!isPLaying) {
@@ -22,13 +41,6 @@ const App = () => {
   };
   const stop = () => {
     RadioPlayer.stop();
-  };
-  const theme = {
-    Button: {
-      titleStyle: {
-        color: 'red',
-      },
-    },
   };
 
   const saveItems = async value => {
@@ -71,6 +83,14 @@ const App = () => {
   return (
     <SafeAreaView>
       <View>
+        <Text>Search</Text>
+        <SearchBar
+          placeholder="Search..."
+          onChangeText={updateSearch}
+          lightTheme
+          cancelButtonTitle="clear"
+          value={searchInput}
+        />
         <Card>
           <View
             style={{
@@ -94,13 +114,11 @@ const App = () => {
                 handleFav={handleFav}></ChannelItem>
             );
           })}
-          <ThemeProvider theme={theme}>
-            <Button
-              type="outline"
-              title="Stop"
-              color="red"
-              onPress={stop}></Button>
-          </ThemeProvider>
+          <Button
+            type="outline"
+            title="Stop"
+            color="red"
+            onPress={stop}></Button>
         </Card>
         <VolumeSlider></VolumeSlider>
       </View>
