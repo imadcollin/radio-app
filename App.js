@@ -17,7 +17,7 @@ const App = () => {
 
   const updateSearch = value => {
     let text = value.toLowerCase();
-    setChs([...data]);
+    setChs([...clonedChannels]);
     if (!text || text === '') {
       setChs(Channels);
     }
