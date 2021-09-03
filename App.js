@@ -12,19 +12,21 @@ const App = () => {
   const [isPLaying, setIsPlaying] = useState(false);
   const [favChs, setFacChs] = useState([]);
   const [chs, setChs] = useState(Channels);
+  const [clonedChannels] = useState(Channels);
   const [searchInput, setSearchInput] = useState('');
 
   const updateSearch = value => {
     let text = value.toLowerCase();
+    setChs([...data]);
     if (!text || text === '') {
       setChs(Channels);
     }
     console.log(text);
-    let arr = chs.filter(x => x.name.toLowerCase().match(text)).map(x => x);
+    let arr = clonedChannels.filter(x => x.name.toLowerCase().match(text)).map(x => x);
     if (arr.length > 0) {
       setChs(arr);
     } else {
-      setChs(Channels);
+      setChs([]);
     }
     setSearchInput(value);
   };
