@@ -85,8 +85,10 @@ const App = () => {
       <View>
         <Text>Search</Text>
         <SearchBar
-          placeholder="Type Here..."
+          placeholder="Search..."
           onChangeText={updateSearch}
+          lightTheme
+          cancelButtonTitle="clear"
           value={searchInput}
         />
         <Card>
