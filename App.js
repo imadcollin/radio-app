@@ -88,7 +88,7 @@ const App = () => {
   return (
     <SafeAreaView>
       <View>
-        <Text>Search</Text>
+        <Text style={{padding:10, fontSize:22, fontWeight:'bold', textAlign:"center"}}>Radio App</Text>
         <SearchBar
           placeholder="Search..."
           onChangeText={updateSearch}
