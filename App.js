@@ -14,6 +14,7 @@ const App = () => {
   const [chs, setChs] = useState(Channels);
   const [clonedChannels] = useState(Channels);
   const [searchInput, setSearchInput] = useState('');
+  const [disableStop, setDisableStop] = useState(true);
 
   const updateSearch = value => {
     let text = value.toLowerCase();
@@ -22,7 +23,9 @@ const App = () => {
       setChs(Channels);
     }
     console.log(text);
-    let arr = clonedChannels.filter(x => x.name.toLowerCase().match(text)).map(x => x);
+    let arr = clonedChannels
+      .filter(x => x.name.toLowerCase().match(text))
+      .map(x => x);
     if (arr.length > 0) {
       setChs(arr);
     } else {
@@ -37,10 +40,12 @@ const App = () => {
     }
     RadioPlayer.radioURL(url);
     RadioPlayer.play();
+    setDisableStop(false);
     setIsPlaying(!isPLaying);
   };
   const stop = () => {
     RadioPlayer.stop();
+    setDisableStop(true);
   };
 
   const saveItems = async value => {
@@ -83,7 +88,7 @@ const App = () => {
   return (
     <SafeAreaView>
       <View>
-        <Text>Search</Text>
+        <Text style={{padding:10, fontSize:22, fontWeight:'bold', textAlign:"center"}}>Radio App</Text>
         <SearchBar
           placeholder="Search..."
           onChangeText={updateSearch}
@@ -118,6 +123,7 @@ const App = () => {
             type="outline"
             title="Stop"
             color="red"
+            disabled={disableStop}
             onPress={stop}></Button>
         </Card>
         <VolumeSlider></VolumeSlider>
