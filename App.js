@@ -1,7 +1,7 @@
-import React, {useState,useEffect} from 'react';
+import React, {useState, useEffect} from 'react';
 import {SafeAreaView, View, Text} from 'react-native';
 import Channels from './helper/channels';
-import RadioPlayer,{RadioPlayerEvents} from 'react-native-radio-player';
+import RadioPlayer from 'react-native-radio-player';
 import {Card, Icon, Button} from 'react-native-elements';
 import ChannelItem from './componants/channelItem';
 import AsyncStorage from '@react-native-async-storage/async-storage';
@@ -15,12 +15,6 @@ const App = () => {
   const [clonedChannels] = useState(Channels);
   const [searchInput, setSearchInput] = useState('');
   const [disableStop, setDisableStop] = useState(true);
-
-  useEffect(() => {
-    RadioPlayerEvents.addListener('stateDidChange', (event) => {
-      console.log(event.state);
-     }); 
-  }, []);
   const updateSearch = value => {
     let text = value.toLowerCase();
     setChs([...clonedChannels]);
@@ -38,22 +32,19 @@ const App = () => {
     }
     setSearchInput(value);
   };
-  
+
   const playing = url => {
     if (!isPLaying) {
       RadioPlayer.stop();
     }
     RadioPlayer.radioURL(url);
     RadioPlayer.play();
-   
-   
-   console.log(RadioPlayerEvents.listenerCount());
-   
     setDisableStop(false);
     setIsPlaying(!isPLaying);
   };
   const stop = () => {
     RadioPlayer.stop();
+
     setDisableStop(true);
   };
 
@@ -97,7 +88,15 @@ const App = () => {
   return (
     <SafeAreaView>
       <View>
-        <Text style={{padding:10, fontSize:22, fontWeight:'bold', textAlign:"center"}}>Radio App</Text>
+        <Text
+          style={{
+            padding: 10,
+            fontSize: 22,
+            fontWeight: 'bold',
+            textAlign: 'center',
+          }}>
+          Radio App
+        </Text>
         <SearchBar
           placeholder="Search..."
           onChangeText={updateSearch}
